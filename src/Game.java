@@ -1,4 +1,3 @@
-import javax.xml.namespace.QName;
 import java.util.Scanner;
 
 public class Game {
@@ -6,13 +5,18 @@ public class Game {
         Scanner scanner = new Scanner(System.in);
 
         Tamagotchi tm = gameStart(scanner);
-        boolean running = true;
-        int foodCounter = 0;
-        while (running){
-        running = gamegGoing(scanner,tm);
-        if (tm.getEnergy() < 5 && running){
-            running = energyStatus(tm);
-        }
+        boolean isAlive = true;
+        while (isAlive) {
+
+            isAlive = gamegGoing(scanner, tm);
+
+            if (tm.getEnergy() < 5 && isAlive) {
+                isAlive = energyStatus(tm);
+            }
+
+            if (tm.getHunger() > 4 && isAlive) {
+                isAlive = foodStatus(tm);
+            }
         }
 
     }
@@ -20,13 +24,16 @@ public class Game {
     public static Tamagotchi gameStart(Scanner scanner) {
         while (true) {
             System.out.println("Hello, would you like to create a Cat or a Dog?");
+
             switch (scanner.nextLine().trim().toLowerCase()) {
                 case "cat", "c", "tiger", "1": {
                     Tamagotchi tm = new Cat();
                     System.out.println("So you would like a cat!!, but what should it's name be?");
+
                     tm.setName(scanner.nextLine().trim());
                     System.out.println("okay, here is your cat " + tm.getName());
                     System.out.println("🐯");
+                    System.out.println();
 
                     return tm;
                 }
@@ -34,9 +41,11 @@ public class Game {
                     System.out.println("So you would like a Dog!!, but what should it's name be?");
                     Tamagotchi tm = new Dog();
 
-                    System.out.println("okay, here is your dog " + tm.getName());
                     tm.setName(scanner.nextLine().trim());
+                    System.out.println("okay, here is your dog " + tm.getName());
                     System.out.println("🐶");
+                    System.out.println();
+
                     return tm;
                 }
                 default:
@@ -49,7 +58,7 @@ public class Game {
 
         while (true) {
             System.out.println("what would you like to do?");
-            System.out.println("1 - pla y");
+            System.out.println("1 - play");
             System.out.println("2 - feed");
             System.out.println("3 - sleep");
             System.out.println("4 - pet");
@@ -57,22 +66,22 @@ public class Game {
 
             switch (scanner.nextLine().trim().toLowerCase()) {
                 case "1": {
-                    tm.play();
+                    tm.play(1,1);
                     return true;
                 }
                 case "2": {
-                    tm.feed();
+                    tm.feed(1, 10);
                     return true;
                 }
                 case "3": {
-                    tm.sleep();
+                    tm.sleep(3,1);
                     return true;
                 }
-                case "4":{
-                    tm.pet();
+                case "4": {
+                    tm.pet(1,1);
                     return true;
                 }
-                case "5":{
+                case "5": {
                     System.out.println(tm.getName() + " died a horrible death!");
                     return false;
                 }
@@ -81,17 +90,38 @@ public class Game {
             }
         }
     }
-    public static boolean energyStatus(Tamagotchi tm){
 
-        if (tm.getEnergy() > 0 && tm.getEnergy() < 5){
+    public static boolean energyStatus(Tamagotchi tm) {
+
+        if (tm.getEnergy() > 0 && tm.getEnergy() < 5) {
             System.out.println(tm.getName() + " low on energy");
+            System.out.println();
             return true;
         }
-        if (tm.getEnergy() <= 0){
+
+        if (tm.getEnergy() <= 0) {
             System.out.println("your " + tm.getName() + " has died!!! ");
+            System.out.println();
             return false;
         }
         return true;
+    }
+
+    public static boolean foodStatus(Tamagotchi tm) {
+        if (tm.getHunger() >= 15) {
+            System.out.println(tm.getName() + " died of HUNGER!!!! 🤤");
+            return false;
+        }else if (tm.getHunger() < 8) {
+            System.out.println();
+            System.out.println(tm.getName() + " is Starting to get hungry!");
+            System.out.println();
+            return true;
+        } else {
+            System.out.println();
+            System.out.println(tm.getName() + " is Starting to get REALLY hungry! 🍔🍕");
+            System.out.println();
+            return true;
+        }
     }
 
 
