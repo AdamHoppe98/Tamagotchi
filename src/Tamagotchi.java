@@ -9,7 +9,7 @@ public class Tamagotchi {
 
 
     public void setName(String name){
-        this.name = name.trim();
+        this.name = name;
     }
 
     public void setEnergy(int energy){

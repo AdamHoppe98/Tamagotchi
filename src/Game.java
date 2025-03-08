@@ -8,7 +8,7 @@ public class Game {
         boolean isAlive = true;
         while (isAlive) {
 
-            isAlive = gamegGoing(scanner, tm);
+            isAlive = gameGoing(scanner, tm);
 
             if (tm.getEnergy() < 5 && isAlive) {
                 isAlive = energyStatus(tm);
@@ -95,7 +95,7 @@ public class Game {
         }
     }
 
-    public static boolean gamegGoing(Scanner scanner, Tamagotchi tm) {
+    public static boolean gameGoing(Scanner scanner, Tamagotchi tm) {
 
         while (true) {
             System.out.println("what would you like to do?");
